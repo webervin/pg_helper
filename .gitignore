@@ -1,0 +1,10 @@
+coverage
+rdoc
+doc
+.yardoc
+.bundle
+pkg
+bin/*
+tmp/*
+.idea/*
+vendor/bundle
