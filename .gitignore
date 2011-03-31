@@ -8,3 +8,6 @@ bin/*
 tmp/*
 .idea/*
 vendor/bundle
+*.gem
+pkg/*
+Gemfile.lock

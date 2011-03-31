@@ -1,12 +1,4 @@
 source :rubygems
 
-gem 'pg'
-
-group :development, :test do
-  gem 'rake'
-  gem 'rspec'
-  gem 'wirble'
-  gem 'metric_fu'
-  gem 'ZenTest'
-  gem 'jeweler'
-end
+# Specify your gem's dependencies in pg_helper.gemspec
+gemspec
