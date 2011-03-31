@@ -1,3 +1,5 @@
+#Main module of PgHelper gem/plugin
 module PgHelper
-  VERSION = "0.2.0"
+  # @return [String]  gem version
+  VERSION = "0.2.1"
 end

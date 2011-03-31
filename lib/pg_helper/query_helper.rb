@@ -1,20 +1,44 @@
-
+#Main module of PgHelper gem/plugin
 module PgHelper
+
+#Indicates that query returned unexpected columnt count
 class PgHelperErrorInvalidColumnCount < PGError; end
+
+#Indicates that query returned too much rows
 class PgHelperErrorInvalidRowCount < PGError; end
+
+# Indicates that transaction was called while inside transaction
 class PgHelperErrorNestedTransactionNotAllowed  < PGError; end
+
+#For use inside transaction to cause rollback.
 class PgHelperErrorRollback < PGError; end
+
+#Indicates that call is invalid outside transaction
 class PgHelperErrorInvalidOutsideTransaction < PGError; end
+
+#Invalid argument
 class PgHelperErrorParamsMustBeArrayOfStrings < PGError; end
 
+#Main api class
 class QueryHelper
-  attr_accessor :connection_params, :pg_connection
 
+  # @return [Hash]  connection params
+  attr_accessor :connection_params
+
+  # Active database connection
+  # @return [PGconn]  connection see {http://rubygems.org/gems/pg Pg gem on rubygems} for details
+  attr_accessor :pg_connection
+
+
+  # Creates a new instance of  the QueryHelper
   def initialize(params)
     @connection_params = params
     reconnect
   end
 
+  # @param [String]  query SQL select that should return one cell, may include $1, $2 etc to be replaced by arguments
+  # @param [Array<String>]  params query arguments to be passed on to PostgreSql
+  # @return [String]
   def value(query, params = [])
     exec(query, params) do |pg_result|
       verify_single_cell!(pg_result)
@@ -22,6 +46,9 @@ class QueryHelper
     end
   end
 
+  # @param [String]  query SQL select that should return one column, may include $1, $2 etc to be replaced by arguments
+  # @param [Array<String>]  params query arguments to be passed on to PostgreSql
+  # @return [Array<String>]  Values of selected column
   def get_column(query, params = [])
     exec(query, params) do |pg_result|
       require_single_column!(pg_result)
@@ -29,17 +56,24 @@ class QueryHelper
     end
   end
 
+  # @param [String]  query SQL update, may include $1, $2 etc to be replaced by arguments
+  # @param [Array<String>]  params query arguments to be passed on to PostgreSql
+  # @return [Integer]  Number of rows changed
   def modify(query, params = [])
     exec(query, params) do |pg_result|
       pg_result.cmd_tuples
     end
   end
 
+  # Executes content of given block inside database transaction
+  #@yield [QueryHelper] 
   def transaction(&block)
     verify_transaction_possible!(&block)
     perform_transaction(&block)
   end
 
+  # Aborts current transaction, or raises exception if invoked outside transaction.
+  #@return [void]
   def rollback!
     raise PgHelperErrorInvalidOutsideTransaction if connection_idle?
     raise PgHelperErrorRollback.new
