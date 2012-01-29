@@ -56,6 +56,46 @@ class QueryHelper
     end
   end
 
+  # @param [String]  query SQL select that should return one row, may include $1, $2 etc to be replaced by arguments
+  # @param [Array<String>]  params query arguments to be passed on to PostgreSql
+  # @return [Hash]  Hash of column_name => row_value for resulting row
+  def get_hash(query, params = [])
+    exec(query, params) do |pg_result|
+      require_single_row!(pg_result)
+      pg_result.res[0]
+    end
+  end
+
+  # @param [String]  query SQL select, may include $1, $2 etc to be replaced by arguments
+  # @param [Array<String>]  params query arguments to be passed on to PostgreSql
+  # @return [Array<Array>]  Array containing Array of values for each row
+  def get_all(query, params = [])
+    exec(query, params) do |pg_result|
+      pg_result.values
+    end
+  end
+
+  # @param [String]  query SQL select, may include $1, $2 etc to be replaced by arguments
+  # @param [Array<String>]  params query arguments to be passed on to PostgreSql
+  # @return [Array<Hash>]  Array containing hash of column_name => row_value for each row
+  def get_all_hashes(query, params = [])
+    exec(query, params) do |pg_result|
+      pg_result.to_a
+    end
+  end
+
+  # @param [String]  query SQL select, may include $1, $2 etc to be replaced by arguments
+  # @param [Array<String>]  params query arguments to be passed on to PostgreSql
+  # @return String csv representation of query result with csv header
+  def csv(query)
+    csv_query = "COPY (#{query}) TO STDOUT with CSV HEADER"
+    exec(csv_query, params = []) do
+      csv_data = ""
+      csv_data += buf while buf = @pg_connection.get_copy_data(true)
+      csv_data
+    end
+  end
+
   # @param [String]  query SQL update, may include $1, $2 etc to be replaced by arguments
   # @param [Array<String>]  params query arguments to be passed on to PostgreSql
   # @return [Integer]  Number of rows changed

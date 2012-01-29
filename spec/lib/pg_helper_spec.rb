@@ -8,7 +8,7 @@ describe QueryHelper do
         :port => 1234,
         :username => 'my user',
         :password => 'my password',
-        :database => 'my base'
+        :dbname => 'my base'
       }
     }
 
@@ -44,7 +44,7 @@ describe QueryHelper do
     end
   end
 
-  let(:pg_helper) { QueryHelper.new({:database => 'postgres'})}
+  let(:pg_helper) { QueryHelper.new({:dbname => 'postgres', :host => 'localhost'})}
 
   describe 'single value' do
     it 'is returned as string' do

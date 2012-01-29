@@ -1,3 +1,7 @@
+## 0.3.0 (2012.01.29)
+* added multiple values output as hash and array of array.
+* CSV output
+
 ## 0.2.1 (2011.03.31)
 * yard documentation added
 
