@@ -5,7 +5,7 @@ ENV['RAILS_ENV'] ||= 'development'
 
 Bundler.require(:default, ENV['RAILS_ENV'])
 
-require 'lib/pg_helper'
+require_relative 'lib/pg_helper'
 
 require 'rake'
 require 'rspec/core/rake_task'

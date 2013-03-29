@@ -24,8 +24,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rake'
   s.add_development_dependency 'rspec'
   s.add_development_dependency 'wirble'
-  s.add_development_dependency 'metric_fu'
-  s.add_development_dependency 'ZenTest'
   s.add_development_dependency 'yard'
   s.add_development_dependency 'bluecloth' #yard hidden dependency
 end
