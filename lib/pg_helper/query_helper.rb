@@ -32,8 +32,13 @@ class QueryHelper
 
   # Creates a new instance of  the QueryHelper
   def initialize(params)
-    @connection_params = params
-    reconnect
+    if params.kind_of? PGconn
+      @pg_connection = params
+      @connection_params = nil
+    else
+      @connection_params = params
+      reconnect
+    end
   end
 
   # @param [String]  query SQL select that should return one cell, may include $1, $2 etc to be replaced by arguments

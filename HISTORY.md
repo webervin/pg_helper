@@ -1,3 +1,6 @@
+## 0.3.1 (2013.03)
+* It is possible to give existing connection to QueryHelper constructor
+
 ## 0.3.0 (2012.01.29)
 * added multiple values output as hash and array of array.
 * CSV output
