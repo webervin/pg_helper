@@ -1,3 +1,6 @@
+## DEV
+* QueryBuilder for cases where Arel is too much.
+
 ## 0.3.1 (2013.03)
 * It is possible to give existing connection to QueryHelper constructor
 
