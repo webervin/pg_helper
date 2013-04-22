@@ -64,7 +64,6 @@ module PgHelper
         end
       end
 
-
       def column_list
         if @selects.empty?
           '*'

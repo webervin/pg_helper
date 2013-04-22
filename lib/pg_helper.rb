@@ -1,5 +1,4 @@
-
-require 'rubygems'
+# require 'rubygems' < - this will be required by package manager
 require 'pg'
 
 # require all of the library files

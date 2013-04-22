@@ -31,6 +31,16 @@ class QueryHelper
 
 
   # Creates a new instance of  the QueryHelper
+  def self.using_pool(pool, &block)
+    helper = nil
+    pool.with_connection do |conn|
+      helper = self.new(conn)
+      yield helper
+    end
+  ensure
+    helper = nil
+  end
+
   def initialize(params)
     if params.kind_of? PGconn
       @pg_connection = params
@@ -153,7 +163,7 @@ class QueryHelper
     raise PgHelperErrorParamsMustBeArrayOfStrings.new unless params.is_a?(Array)
   end
   def reconnect
-    @pg_connection = PGconn.open(@connection_params)
+    @pg_connection = PGconn.open(@connection_params)  if @connection_params
   end
 
   def perform_transaction(&block)
