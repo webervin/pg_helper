@@ -1,5 +1,7 @@
 PgHelper
 =============
+[![CI](https://travis-ci.org/webervin/pg_helper.png)](https://travis-ci.org/webervin/pg_helper)
+[![Code Climate](https://codeclimate.com/github/webervin/pg_helper.png)](https://codeclimate.com/github/webervin/pg_helper)
 
 Because sometimes I don't want ActiveRecord to parse all fields, nor think about connection.
 All features are actually provided by [Pg gem](http://rubygems.org/gems/pg)
