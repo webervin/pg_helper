@@ -123,8 +123,28 @@ describe QueryHelper do
   end
 
   describe 'executing operation' do
-    it 'returns number of rows changed by query' do
-      pg_helper.modify('select 1').should == 0
+    before(:all) do
+      pg_helper.modify(<<-SQL)
+        CREATE TEMP TABLE IF NOT EXISTS modify_test
+        (
+          test_text text
+        )
+      SQL
+      pg_helper.modify("INSERT INTO modify_test (test_text) values ('b')")
+    end
+
+    it 'returns number of rows inserted' do
+      pg_helper.modify(<<-SQL).should == 12
+        INSERT INTO modify_test (test_text)
+        select n::text
+        FROM generate_series(1,12,1) as n
+      SQL
+    end
+
+    it 'returns number of rows updated by query' do
+      pg_helper.modify(<<-SQL).should == 1
+        UPDATE modify_test SET test_text = 'c' where test_text = 'b'
+      SQL
     end
 
     it 'uses cmd_tuples of pg_result internally' do
