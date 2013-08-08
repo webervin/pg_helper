@@ -102,9 +102,9 @@ class QueryHelper
   # @param [String]  query SQL select, may include $1, $2 etc to be replaced by arguments
   # @param [Array<String>]  params query arguments to be passed on to PostgreSql
   # @return String csv representation of query result with csv header
-  def csv(query)
+  def csv(query, params = [])
     csv_query = "COPY (#{query}) TO STDOUT with CSV HEADER"
-    exec(csv_query, params = []) do
+    exec(csv_query, params) do
       csv_data = ""
       csv_data += buf while buf = @pg_connection.get_copy_data(true)
       csv_data
