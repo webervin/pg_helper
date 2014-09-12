@@ -27,4 +27,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'wirble'
   s.add_development_dependency 'yard'
   s.add_development_dependency 'bluecloth' #yard hidden dependency
+  s.add_development_dependency 'rubocop' #yard hidden dependency
 end
