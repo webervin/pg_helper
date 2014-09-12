@@ -3,7 +3,7 @@ module PgHelper
     attr_reader :table_name
 
     def self.from(table_name)
-      self.new(table_name)
+      new(table_name)
     end
 
     def initialize(table_name)
@@ -16,7 +16,11 @@ module PgHelper
 
     # http://www.postgresql.org/docs/9.2/static/sql-select.html
     def to_sql
-      "#{with_list}SELECT #{column_list} FROM #{table_name}#{join_list}#{where_list}"
+      "#{with_list}"\
+      "SELECT #{column_list} "\
+      "FROM #{table_name}"\
+      "#{join_list}"\
+      "#{where_list}"
     end
 
     def select(value)
@@ -40,36 +44,37 @@ module PgHelper
     end
 
     private
-      def join_list
-        if @join_list.empty?
-          nil
-        else
-          " #{@join_list.join(' ')}"
-        end
-      end
 
-      def with_list
-        if @cte_list.empty?
-          nil
-        else
-          "WITH #{@cte_list.join(',')} "
-        end
+    def join_list
+      if @join_list.empty?
+        nil
+      else
+        " #{@join_list.join(' ')}"
       end
+    end
 
-      def where_list
-        if @where.empty?
-          nil
-        else
-          " WHERE #{@where.join(' AND ')}"
-        end
+    def with_list
+      if @cte_list.empty?
+        nil
+      else
+        "WITH #{@cte_list.join(',')} "
       end
+    end
 
-      def column_list
-        if @selects.empty?
-          '*'
-        else
-          @selects.join(',')
-        end
+    def where_list
+      if @where.empty?
+        nil
+      else
+        " WHERE #{@where.join(' AND ')}"
       end
+    end
+
+    def column_list
+      if @selects.empty?
+        '*'
+      else
+        @selects.join(',')
+      end
+    end
   end
 end

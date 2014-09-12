@@ -96,8 +96,9 @@ RSpec.describe QueryHelper do
     it 'clears pg result on failure' do
       expect(double_result(nfields: 2))
         .to receive(:clear).and_return(true)
-
-      pg_helper.value('foo')
+      expect {
+        pg_helper.value('foo')
+      }.to raise_error
     end
   end
 
@@ -148,7 +149,7 @@ RSpec.describe QueryHelper do
   describe 'executing operation' do
     before(:all) do
       helper = pg_helper
-      puts helper.modify(<<-SQL)
+      helper.modify(<<-SQL)
         CREATE TABLE IF NOT EXISTS #{UNIQUE_TABLE_NAME}
         (
           test_text text
