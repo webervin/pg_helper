@@ -59,7 +59,7 @@ module PgHelper
     def get_hash(query, params = [])
       exec(query, params) do |pg_result|
         ValidationHelper.require_single_row!(pg_result)
-        pg_result.res[0]
+        pg_result[0]
       end
     end
 
