@@ -21,7 +21,7 @@ module PgHelper
     end
 
     def initialize(params)
-      if params.is_a? PGconn
+      if params.is_a? PG::Connection
         @pg_connection = params
         @connection_params = nil
       else
@@ -128,7 +128,7 @@ module PgHelper
     protected
 
     def connection_idle?
-      PGconn::PQTRANS_IDLE == @pg_connection.transaction_status
+      PG::Constants::PQTRANS_IDLE == @pg_connection.transaction_status
     end
 
     def exec(query, params = [], &block)
@@ -147,7 +147,7 @@ module PgHelper
     end
 
     def reconnect
-      @pg_connection = PGconn.open(@connection_params)  if @connection_params
+      @pg_connection = PG::Connection.open(@connection_params)  if @connection_params
     end
 
     def perform_transaction(&block)

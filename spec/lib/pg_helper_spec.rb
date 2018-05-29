@@ -6,7 +6,7 @@ UNIQUE_TABLE_NAME = "pg_helper_test_#{(rand * 100_000_000).to_i}"
 REAL_PARAMS = { host: 'localhost' }
 RSpec.describe QueryHelper do
   after(:all) do
-    conn = PGconn.open(REAL_PARAMS)
+    conn = PG::Connection.open(REAL_PARAMS)
     conn.exec("drop table if exists #{UNIQUE_TABLE_NAME} ") { true }
     conn.finish
   end
@@ -23,13 +23,13 @@ RSpec.describe QueryHelper do
     end
 
     it 'are stored upon initialization' do
-      allow(PGconn).to receive(:open).and_return(true)
+      allow(PG::Connection).to receive(:open).and_return(true)
       expect(QueryHelper.new(params).connection_params).to eq params
     end
 
     it 'are passed to pgconn' do
       double(:conn).tap do |conn|
-        allow(PGconn).to receive(:open).with(params).and_return(conn)
+        allow(PG::Connection).to receive(:open).with(params).and_return(conn)
         expect(QueryHelper.new(params).pg_connection).to eq conn
       end
     end
@@ -98,7 +98,7 @@ RSpec.describe QueryHelper do
         .to receive(:clear).and_return(true)
       expect {
         pg_helper.value('foo')
-      }.to raise_error
+      }.to raise_error(PgHelper::PgHelperErrorInvalidColumnCount)
     end
   end
 

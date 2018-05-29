@@ -37,13 +37,7 @@ RSpec.describe PgHelper::ConnectionPool do
       it 'raises error instead of active connection' do
         expect do
           subject.connection
-        end.to raise_exception
-      end
-
-      it 'raises error instead of yielding active connection' do
-        expect do
-          subject.connection
-        end.to raise_exception
+        end.to raise_exception(::PgHelper::ConnectionPool::ConnectionNotEstablished)
       end
     end
   end

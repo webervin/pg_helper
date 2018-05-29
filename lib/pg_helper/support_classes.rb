@@ -1,22 +1,22 @@
 # Main module of PgHelper gem/plugin
 module PgHelper
   # Indicates that query returned unexpected columnt count
-  class PgHelperErrorInvalidColumnCount < PGError; end
+  class PgHelperErrorInvalidColumnCount < PG::Error; end
 
   # Indicates that query returned too much rows
-  class PgHelperErrorInvalidRowCount < PGError; end
+  class PgHelperErrorInvalidRowCount < PG::Error; end
 
   # Indicates that transaction was called while inside transaction
-  class PgHelperErrorNestedTransactionNotAllowed  < PGError; end
+  class PgHelperErrorNestedTransactionNotAllowed  < PG::Error; end
 
   # For use inside transaction to cause rollback.
-  class PgHelperErrorRollback < PGError; end
+  class PgHelperErrorRollback < PG::Error; end
 
   # Indicates that call is invalid outside transaction
-  class PgHelperErrorInvalidOutsideTransaction < PGError; end
+  class PgHelperErrorInvalidOutsideTransaction < PG::Error; end
 
   # Invalid argument
-  class PgHelperErrorParamsMustBeArrayOfStrings < PGError; end
+  class PgHelperErrorParamsMustBeArrayOfStrings < PG::Error; end
 
   # data validation
   class ValidationHelper

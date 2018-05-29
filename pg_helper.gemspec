@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.email = %q{webervin@gmail.com}
   s.homepage = %q{http://github.com/webervin/pg_helper}
   s.rubyforge_project = "pg_helper"
-  s.summary = %q{Tiny wraper for 'pg' gem}
+  s.summary = %q{Tiny wrapper for 'pg' gem}
   s.description = %q{Makes even easier to use postgresql without activerecord}
   s.has_rdoc = 'yard'
 
@@ -19,7 +19,7 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
 
-  s.add_runtime_dependency 'pg', '~> 0.18.0'
+  s.add_runtime_dependency 'pg', '~> 1.0.0'
   s.add_runtime_dependency 'thread_safe'
 
   s.add_development_dependency 'rake'

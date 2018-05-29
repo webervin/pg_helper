@@ -26,6 +26,11 @@ module PgHelper
   class CouldNotObtainConnection < RuntimeError
   end
 
+
+  # Raised when autoconnect is disabled and no connection established
+  class ConnectionNotEstablished < RuntimeError
+  end
+
   class ConnectionPool
     # nearly standard queue, but with timeout on wait
     # FIXME: custom class inherit from
@@ -337,7 +342,7 @@ module PgHelper
     end
 
     def new_connection
-      conn = PGconn.open(connection_options)
+      conn = ::PG::Connection.open(connection_options)
       $DEBUG && warn("Connected to PostgreSQL #{conn.server_version} (#{conn.object_id})")
       conn
     end
